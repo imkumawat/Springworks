@@ -1,0 +1,577 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Springworks",
+    "description": "APIs for Social Network Website",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://117.199.200.134:5000/api/v1/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Account",
+      "description": "Sign up and Login system"
+    },
+    {
+      "name": "Feed",
+      "description": "create post and article"
+    },
+    {
+      "name": "Like and Comment",
+      "description": "Like and Comment on posts and articles"
+    }
+  ],
+  "paths": {
+    "/signup": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "This api will create user profile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "firstName",
+                  "lastName",
+                  "userName",
+                  "email",
+                  "password",
+                  "imageText"
+                ],
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "default": "Manoj"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "default": "Kumawat"
+                  },
+                  "userName": {
+                    "type": "string",
+                    "default": "imkumawat"
+                  },
+                  "email": {
+                    "type": "string",
+                    "default": "imkumawatmanoj@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "default": "Dream@999"
+                  },
+                  "imageText": {
+                    "type": "string",
+                    "default": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACDQAAAxbCAMAAAB2Z91nAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAC1lBMVEX/////+fX/7eL/1r3/za//uo//pGr//Pv/5tf/xJ//dBz/8+z/mVn/jUX/r37/3sr/gTH/pWz/hTj/eSX/diD/nF3/rnzV/AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTAyLTE1VDEyOjA1OjUxKzAwOjAwLzedwwAAAABJRU5ErkJggg=="
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "generation success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "User created"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "This api will generate jwt token valid for half hour",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "default": "imkumawatmanoj@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "default": "Dream@999"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "generation success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Token Generation Success"
+                    },
+                    "jwt": {
+                      "type": "string",
+                      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ijg1MiIsImlhdCI6MTY0MTY0MzY0NiwiZXhwIjoxNjQxNjQ1NDQ2fQ.Hs6cOPWuXeqP77MSvHZN7wctlVdu_zeAsiRL6L5dM7I"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deleteprofile": {
+      "put": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "This api will delete user account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userName"
+                ],
+                "properties": {
+                  "userName": {
+                    "type": "string",
+                    "default": "imkumawat"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Jwt": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Account Deleted"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createpost": {
+      "post": {
+        "tags": [
+          "Feed"
+        ],
+        "summary": "This api will create post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userName",
+                  "captionText",
+                  "imageText"
+                ],
+                "properties": {
+                  "userName": {
+                    "type": "string",
+                    "default": "imkumawat"
+                  },
+                  "captionText": {
+                    "type": "string",
+                    "default": "Looking goood"
+                  },
+                  "imageText": {
+                    "type": "string",
+                    "default": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACDQAAAxbCAMAAAB2Z91nAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAC1lBMVEX/////+fX/7eL/1r3/za//uo//pGr//Pv/5tf/xJ//dBz/8+z/mVn/jUX/r37/3sr/gTH/pWz/hTj/eSX/diD/nF3/rnzV/AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTAyLTE1VDEyOjA1OjUxKzAwOjAwLzedwwAAAABJRU5ErkJggg=="
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Jwt": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Post created"
+                    },
+                    "postid": {
+                      "type": "string",
+                      "default": "e3MN7QFu8"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createarticle": {
+      "post": {
+        "tags": [
+          "Feed"
+        ],
+        "summary": "This api will create article",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userName",
+                  "content",
+                  "imageText"
+                ],
+                "properties": {
+                  "userName": {
+                    "type": "string",
+                    "default": "imkumawat"
+                  },
+                  "content": {
+                    "type": "string",
+                    "default": "Here we will learn how to write apis"
+                  },
+                  "imageText": {
+                    "type": "string",
+                    "default": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACDQAAAxbCAMAAAB2Z91nAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAC1lBMVEX/////+fX/7eL/1r3/za//uo//pGr//Pv/5tf/xJ//dBz/8+z/mVn/jUX/r37/3sr/gTH/pWz/hTj/eSX/diD/nF3/rnzV/AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTAyLTE1VDEyOjA1OjUxKzAwOjAwLzedwwAAAABJRU5ErkJggg=="
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Jwt": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Article created"
+                    },
+                    "articleid": {
+                      "type": "string",
+                      "default": "e3MN7QFu8"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addlike": {
+      "post": {
+        "tags": [
+          "Like and Comment"
+        ],
+        "summary": "This api will like post/article",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userName",
+                  "idPostArticle"
+                ],
+                "properties": {
+                  "userName": {
+                    "type": "string",
+                    "default": "imkumawat"
+                  },
+                  "idPostArticle": {
+                    "type": "string",
+                    "default": "jKXhmq7uF"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Jwt": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Post/Article liked"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getlike/{idPostArticle}": {
+      "get": {
+        "tags": [
+          "Like and Comment"
+        ],
+        "summary": "get list of companies",
+        "parameters": [
+          {
+            "name": "idPostArticle",
+            "in": "path",
+            "description": "id of post/article",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "fomciGuV0"
+            }
+          }
+        ],
+        "security": [
+          {
+            "Jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Okay",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "ok"
+                    },
+                    "data": {
+                      "type": "object",
+                      "default": [
+                        {
+                          "likeby": [
+                            {
+                              "userName": "imkumawat"
+                            },
+                            {
+                              "userName": "imkumawat440"
+                            }
+                          ],
+                          "count": 2
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addcomment": {
+      "post": {
+        "tags": [
+          "Like and Comment"
+        ],
+        "summary": "This api will add comment on post/article",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userName",
+                  "idPostArticle",
+                  "comment"
+                ],
+                "properties": {
+                  "userName": {
+                    "type": "string",
+                    "default": "imkumawat"
+                  },
+                  "idPostArticle": {
+                    "type": "string",
+                    "default": "jKXhmq7uF"
+                  },
+                  "comment": {
+                    "type": "string",
+                    "default": "Looking awesome"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Jwt": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Commented on Post/Article"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getcomment/{idPostArticle}": {
+      "get": {
+        "tags": [
+          "Like and Comment"
+        ],
+        "summary": "get list of companies",
+        "parameters": [
+          {
+            "name": "idPostArticle",
+            "in": "path",
+            "description": "id of post/article",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "fomciGuV0"
+            }
+          }
+        ],
+        "security": [
+          {
+            "Jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Okay",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "ok"
+                    },
+                    "data": {
+                      "type": "object",
+                      "default": [
+                        {
+                          "comments": [
+                            {
+                              "userName": "imkumawat",
+                              "comment": "Looking awesome",
+                              "commentedAt": "2022-02-17T05:38:21.455Z"
+                            },
+                            {
+                              "userName": "imkumawat440",
+                              "comment": "Looking good",
+                              "commentedAt": "2022-02-17T05:38:21.455Z"
+                            }
+                          ],
+                          "count": 2
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "Jwt": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}
